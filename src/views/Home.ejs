@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/CRUD">Create</a>
+    <h1>HELLOO</h1>
+   
+    <div class="CRUD">
+       
+    </div>
+    <table class="table table-striped ">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Email</th>
+            <th scope="col">gender</th>
+            <th scope="col">phone</th>
+            <th scope="col">address</th>
+            <th scope="col">Action</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+           <%  for (i= 0; i< dataUser.length ; i++) { %>
+            <tr>
+                <th ><%= dataUser[i].id %></th>
+                <td><%= dataUser[i].firstName %></td>
+                <td><%= dataUser[i].lastName %></td>
+                <td><%= dataUser[i].email %></td>
+                <td><%= dataUser[i].gender %></td>  
+                <td><%= dataUser[i].phoneNumber %></td>
+                <td><%= dataUser[i].address %></td>
+                <td> 
+                  <button><a href="/edit?id=<%=dataUser[i].id%>">Edit</a></button>
+                  <button><a href="/deleteUser?id=<%=dataUser[i].id%>">delete</a></button>
+                </td>
+              </tr>
+          <% } %>
+               
+        
+      
+        </tbody>
+      </table>
+</body>
+</html>
