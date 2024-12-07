@@ -2,6 +2,7 @@ const crypto = require('crypto');
 
 const db = require('../models/index');
 
+
 const createBannerService = (dataInput) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -51,4 +52,63 @@ const getImgBannerService = (limitInput) => {
         }
     })
 }
-module.exports = { getImgBannerService, createBannerService }
+const getDataAllCode = (typeInput) => {
+    return new Promise(async (resolve, reject) => {
+
+        try {
+            if (!typeInput) {
+                resolve({
+                    errCode: 1,
+                    message: 'Missing input Type !'
+                })
+            } else {
+                let dataAllcode = await db.allcodes.findAll({
+                    where: { type: typeInput }
+
+                })
+                resolve({
+                    errCode: 0,
+                    data: dataAllcode
+                })
+            }
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+
+}
+
+const CreateProductService = (ProductData) => {
+    return new Promise(async (resolve, reject) => {
+
+        if (!ProductData.productName || !ProductData.count || !ProductData.imageProduct || !ProductData.typeProduct) {
+            resolve({
+                errCode: -1,
+                message: 'Missing Input parameter !!'
+            })
+        }
+        else {
+            let data = await db.ProDucts.create({
+                productName: ProductData.productName,
+                count: ProductData.count,
+                imageProduct: ProductData.imageProduct,
+                Sku: ProductData.Sku,
+                categories: ProductData.categories,
+                tag: ProductData.tag,
+                typeProducts: ProductData.typeProduct
+            })
+            resolve({
+                errCode: 0,
+                data: data
+            })
+        }
+
+        try {
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+module.exports = { getImgBannerService, createBannerService, CreateProductService, getDataAllCode }

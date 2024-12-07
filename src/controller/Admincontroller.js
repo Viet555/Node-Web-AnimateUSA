@@ -1,5 +1,5 @@
 const { getAllDoctorSevice, saveInforDoctorService, getDetailDoctorService } = require('../services/DoctorService')
-const { createBannerService, getImgBannerService } = require('../services/AdminService')
+const { createBannerService, getImgBannerService, CreateProductService, getDataAllCode } = require('../services/AdminService')
 
 
 const CreateBanner = async (req, res) => {
@@ -14,7 +14,6 @@ const CreateBanner = async (req, res) => {
         })
 
     }
-
 }
 
 const getImgBanner = async (req, res) => {
@@ -31,6 +30,36 @@ const getImgBanner = async (req, res) => {
         })
     }
 }
+const CreateProduct = async (req, res) => {
+
+    try {
+        let dataProduct = await CreateProductService(req.body)
+        return res.status(200).json(dataProduct)
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: 1,
+            message: 'err form server',
+        })
+    }
+}
+const getAllcode = async (req, res) => {
+    try {
+
+        let typeInput = req.query.typeInput
+        let dataAllcode = await getDataAllCode(typeInput)
+        return res.status(200).json(dataAllcode)
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+
+            errCode: 1,
+            message: ' Get AllCode Fail Maybe Err form server '
+
+        })
+    }
+}
+////
 const getAllDoctor = async (req, res) => {
 
     try {
@@ -70,5 +99,5 @@ const getDetailDoctor = async (req, res) => {
     }
 }
 module.exports = {
-    getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor, CreateBanner
+    getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor, CreateBanner, CreateProduct, getAllcode
 }
