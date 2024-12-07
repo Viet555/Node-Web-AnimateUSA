@@ -1,5 +1,5 @@
 const { getAllDoctorSevice, saveInforDoctorService, getDetailDoctorService } = require('../services/DoctorService')
-const { createBannerService, getImgBannerService, CreateProductService, getDataAllCode } = require('../services/AdminService')
+const { createBannerService, getImgBannerService, CreateProductService, getDataAllCode, getProductFigureService } = require('../services/AdminService')
 
 
 const CreateBanner = async (req, res) => {
@@ -59,6 +59,19 @@ const getAllcode = async (req, res) => {
         })
     }
 }
+
+const getProductFigureLimit = async (req, res) => {
+    try {
+        limit = req.query.limitInput
+        type = req.query.typeInput
+
+        if (!limit) limit = 6;
+        let data = await getProductFigureService(+limit, type)
+        return res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+    }
+}
 ////
 const getAllDoctor = async (req, res) => {
 
@@ -99,5 +112,5 @@ const getDetailDoctor = async (req, res) => {
     }
 }
 module.exports = {
-    getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor, CreateBanner, CreateProduct, getAllcode
+    getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor, CreateBanner, CreateProduct, getAllcode, getProductFigureLimit
 }

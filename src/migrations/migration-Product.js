@@ -25,6 +25,7 @@ module.exports = {
             imageProduct: {
                 type: Sequelize.BLOB('long')
             },
+
             typeProducts: {
                 type: Sequelize.STRING
             },

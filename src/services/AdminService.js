@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const db = require('../models/index');
 
 
+
 const createBannerService = (dataInput) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -111,4 +112,25 @@ const CreateProductService = (ProductData) => {
         }
     })
 }
-module.exports = { getImgBannerService, createBannerService, CreateProductService, getDataAllCode }
+//
+const getProductFigureService = (limitInput, typeInput) => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            let dataProduct = await db.ProDucts.findAll({
+                where: { typeProducts: typeInput },
+                limit: limitInput,
+                order: [['createdAt', 'DESC']],
+
+            })
+            resolve({
+                errCode: 0,
+                data: dataProduct
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+module.exports = { getImgBannerService, createBannerService, CreateProductService, getDataAllCode, getProductFigureService }
