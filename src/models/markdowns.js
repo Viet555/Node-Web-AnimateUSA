@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            markdowns.belongsTo(models.User, { foreignKey: 'doctorId', })
+            markdowns.belongsTo(models.ProDucts, { foreignKey: 'productId', })
             // define association here
         }
     };
@@ -19,9 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         contentHTML: DataTypes.TEXT('long'),
         contentmarkdowns: DataTypes.TEXT('long'),
         description: DataTypes.TEXT('long'),
-        doctorId: DataTypes.INTEGER,
-        specialtyId: DataTypes.INTEGER,
-        clinicId: DataTypes.INTEGER,
+        productID: DataTypes.INTEGER,
 
 
     }, {

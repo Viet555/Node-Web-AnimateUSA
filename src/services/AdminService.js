@@ -4,6 +4,7 @@ const db = require('../models/index');
 
 
 
+
 const createBannerService = (dataInput) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -133,4 +134,105 @@ const getProductFigureService = (limitInput, typeInput) => {
         }
     })
 }
-module.exports = { getImgBannerService, createBannerService, CreateProductService, getDataAllCode, getProductFigureService }
+const createInforProductService = (dataInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log('data---------------------------------------------', dataInput)
+            if (!dataInput.productId || !dataInput.contentHTML || !dataInput.contentmarkdowns || !dataInput.action)
+                resolve({
+                    errCode: -1,
+                    message: 'missing input params'
+                })
+            else if (dataInput.action === 'EDIT') {
+                let DTmarkdown = await db.markdowns.findOne({
+                    where: { productId: dataInput.productID },
+                    raw: false
+                })
+                if (DTmarkdown) {
+                    DTmarkdown.contentHTML = inputData.contentHTML;
+                    DTmarkdown.contentmarkdowns = inputData.contentmarkdowns;
+                    DTmarkdown.description = inputData.description;
+                    DTmarkdown.updateAt = new Date();
+                    await DTmarkdown.save()
+                }
+                resolve({
+                    errCode: 0,
+                    message: 'Up data Success'
+                })
+            }
+            else if (dataInput.action === "CREATE") {
+                await db.markdowns.create({
+                    contentHTML: dataInput.contentHTML,
+                    contentmarkdowns: dataInput.contentmarkdowns,
+                    description: dataInput.description,
+                    productId: dataInput.productId
+                })
+                resolve({
+                    errCode: 0,
+                    message: "Succes"
+                })
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+const getAllproductByTypeService = (inputType) => {
+    return new Promise(async (resolve, reject) => {
+
+        try {
+            if (!inputType) {
+                resolve({
+                    errCode: 1,
+                    message: 'Missing input  !'
+                })
+            } else {
+                let dataProduct = await db.ProDucts.findAll({
+                    where: { typeProducts: inputType }
+                })
+                resolve({
+                    errCode: 0,
+                    data: dataProduct
+                })
+            }
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+const AllDetailByidService = (inputId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!inputId) {
+                resolve({
+                    errCode: 1,
+                    message: 'Missing input !'
+                })
+            } else {
+                let Product = await db.ProDucts.findOne({
+                    where: { id: inputId },
+
+
+                    include: [
+                        { model: db.markdowns, attributes: ['description', 'contentmarkdowns', 'contentHTML'] },
+                    ],
+                    raw: false,
+                    nest: true
+                })
+
+                resolve({
+                    errCode: 0,
+                    data: Product
+                })
+            }
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+module.exports = {
+    getImgBannerService, createBannerService, CreateProductService,
+    getDataAllCode, getProductFigureService, createInforProductService, getAllproductByTypeService, AllDetailByidService
+}

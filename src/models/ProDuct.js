@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 
             ProDucts.belongsTo(models.allcodes, { foreignKey: 'typeProducts', targetKey: 'keyMap', as: 'typeProDuctsData' })
             // ProDucts.belongsTo(models.allcode, { foreignKey: 'gender', targetKey: 'keyMap', as: 'genderData' })
-            // ProDucts.hasOne(models.markdowns, { foreignKey: 'doctorId', })
+            ProDucts.hasOne(models.markdowns, { foreignKey: 'productID', })
             // define association here
         }
     };
@@ -25,9 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         Sku: DataTypes.STRING,
         categories: DataTypes.STRING,
         imageProduct: DataTypes.BLOB('long'),
-
         typeProducts: DataTypes.STRING,
         tag: DataTypes.STRING,
+
+
     }, {
         sequelize,
         modelName: 'ProDucts',

@@ -1,5 +1,6 @@
 const { getAllDoctorSevice, saveInforDoctorService, getDetailDoctorService } = require('../services/DoctorService')
-const { createBannerService, getImgBannerService, CreateProductService, getDataAllCode, getProductFigureService } = require('../services/AdminService')
+const { createBannerService, getImgBannerService,
+    CreateProductService, getDataAllCode, getProductFigureService, createInforProductService, getAllproductByTypeService, AllDetailByidService, } = require('../services/AdminService')
 
 
 const CreateBanner = async (req, res) => {
@@ -72,6 +73,45 @@ const getProductFigureLimit = async (req, res) => {
         console.log(e)
     }
 }
+const createInforProduct = async (req, res) => {
+    try {
+        console.log(req.body)
+        let data = await createInforProductService(req.body)
+        return res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: 1,
+            message: ' err from sever'
+        })
+    }
+}
+const getallProductByType = async (req, res) => {
+    try {
+        let data = await getAllproductByTypeService(req.query.inputType)
+        return res.status(200).json(data)
+    } catch (e) {
+
+        console.log(e)
+        return res.status(200).json({
+            errCode: 1,
+            message: 'Err from server '
+        })
+    }
+}
+const getAllDetailProductById = async (req, res) => {
+    try {
+
+        let data = await AllDetailByidService(req.query.inputId)
+        return res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: 1,
+            message: 'err From sever'
+        })
+    }
+}
 ////
 const getAllDoctor = async (req, res) => {
 
@@ -112,5 +152,7 @@ const getDetailDoctor = async (req, res) => {
     }
 }
 module.exports = {
-    getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor, CreateBanner, CreateProduct, getAllcode, getProductFigureLimit
+    getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor,
+    CreateBanner, CreateProduct, getAllcode, getProductFigureLimit,
+    createInforProduct, getallProductByType, getAllDetailProductById
 }
