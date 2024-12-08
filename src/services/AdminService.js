@@ -232,7 +232,26 @@ const AllDetailByidService = (inputId) => {
         }
     })
 }
+const getAllDataProjectService = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let dataAll = await db.ProDucts.findAll({
+                include: [
+                    { model: db.markdowns, attributes: ['description', 'contentmarkdowns', 'contentHTML'] },
+                ],
+                raw: false,
+                nest: true
+            })
+            resolve({
+                errCode: 0,
+                data: dataAll
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     getImgBannerService, createBannerService, CreateProductService,
-    getDataAllCode, getProductFigureService, createInforProductService, getAllproductByTypeService, AllDetailByidService
+    getDataAllCode, getProductFigureService, createInforProductService, getAllproductByTypeService, AllDetailByidService, getAllDataProjectService
 }
