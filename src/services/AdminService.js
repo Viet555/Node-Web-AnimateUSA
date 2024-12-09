@@ -2,9 +2,6 @@ const crypto = require('crypto');
 
 const db = require('../models/index');
 
-
-
-
 const createBannerService = (dataInput) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -251,7 +248,21 @@ const getAllDataProjectService = () => {
         }
     })
 }
+// const ProductlimitExclude = (inputId) => {
+//     return new Promise(async(resolve, reject) => {
+//         try {
+//             let response = await db.ProDucts.findAll({
+//                     attributes:{
+//                         exclude :[pro]
+//                     }
+//             })
+//         } catch (e) {
+//             reject(e)
+//         }
+//     })
+// }
 module.exports = {
     getImgBannerService, createBannerService, CreateProductService,
-    getDataAllCode, getProductFigureService, createInforProductService, getAllproductByTypeService, AllDetailByidService, getAllDataProjectService
+    getDataAllCode, getProductFigureService, createInforProductService,
+    getAllproductByTypeService, AllDetailByidService, getAllDataProjectService,
 }
