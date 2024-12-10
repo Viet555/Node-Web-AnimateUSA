@@ -8,7 +8,7 @@ Router.post('/api/login', handleLogin)
 Router.post('/api/create-img-banner', CreateBanner)
 Router.get('/api/limit-img-banner', getImgBanner);
 Router.post('/api/Create-product', CreateProduct);
-// Router.post('/api/create-new-user', handleCreateUser)
+Router.post('/api/create-new-user', handleCreateUser)
 // Router.put('/api/edit-user', handleEditUser)
 // Router.delete('/api/delete-user', handleDeleteUser);
 Router.get('/api/allcode', getAllcode);

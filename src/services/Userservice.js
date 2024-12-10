@@ -17,7 +17,7 @@ const handleUserLogin = async (email, password) => {
                 let user = await db.User.findOne({
                     where: { email: email },
                     //loc data muon tim
-                    attributes: ["email", "id", "password", "firstname", 'lastname'],
+                    attributes: ["email", "id", "password", "firstname", 'lastname', 'roleId'],
 
                 })
                 if (user) {
@@ -113,11 +113,15 @@ const createUser = (user) => {
             }
             let hashPasswordUser = await hashUserPassword(user.password)
             if (check === false) {
+                if (!user.roleId) {
+                    user.roleId = "User"
+                }
                 await db.User.create({
                     firstName: user.firstName,
                     lastName: user.lastName,
                     password: hashPasswordUser,
-                    email: user.email
+                    email: user.email,
+                    roleId: user.roleId
                 })
                 resolve({
                     errcode: 0,
