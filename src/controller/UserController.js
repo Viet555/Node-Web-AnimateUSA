@@ -38,9 +38,6 @@ const handlegetAllUser = async (req, res) => {
 }
 const handleCreateUser = async (req, res) => {
     let roleId = req.body.roleId
-    if (!roleId)
-        roleId = "User"
-
     let userData = await createUser(req.body)
     return res.status(200).json(userData)
 }

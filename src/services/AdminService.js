@@ -1,6 +1,9 @@
 const crypto = require('crypto');
 
 const db = require('../models/index');
+const { where } = require('sequelize');
+const { error } = require('console');
+
 
 const createBannerService = (dataInput) => {
     return new Promise(async (resolve, reject) => {
@@ -134,7 +137,7 @@ const getProductFigureService = (limitInput, typeInput) => {
 const createInforProductService = (dataInput) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('data---------------------------------------------', dataInput)
+
             if (!dataInput.productId || !dataInput.contentHTML || !dataInput.contentmarkdowns || !dataInput.action)
                 resolve({
                     errCode: -1,
@@ -248,6 +251,56 @@ const getAllDataProjectService = () => {
         }
     })
 }
+const deleteUserService = (UserId) => {
+    console.log(UserId)
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: UserId }
+            })
+            if (!user) {
+                resolve({
+                    errCode: -1,
+                    message: "User not found !"
+                })
+            }
+            else {
+                let dataUser = await db.User.destroy({
+                    where: { id: UserId }
+                })
+                resolve({
+                    errCode: 0,
+                    message: " Delete User succedd "
+                })
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+
+}
+const getAllUserService = () => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            let users = await db.User.findAll({
+                attributes: {
+                    exclude: ['password', 'positionId']
+                },
+            })
+
+            resolve(
+                {
+                    errCode: 0,
+                    data: users
+                }
+            )
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 // const ProductlimitExclude = (inputId) => {
 //     return new Promise(async(resolve, reject) => {
 //         try {
@@ -261,8 +314,40 @@ const getAllDataProjectService = () => {
 //         }
 //     })
 // }
+const handleSaveUser = (dataUser) => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!dataUser.id) {
+                resolve({
+                    errCode: 1,
+                    message: 'User Not found !'
+                })
+            }
+            let User = await db.User.findOne({
+                where: { id: dataUser.id },
+                raw: false
+            })
+            if (User) {
+                User.firstName = dataUser.firstName,
+                    User.lastName = dataUser.lastName,
+                    User.gender = dataUser.gender,
+                    User.address = dataUser.address,
+                    User.roleId = dataUser.roleId,
+                    User.image = dataUser.image
+                await User.save();
+            }
+            resolve({
+                errCode: 0,
+                message: "Update User Success"
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     getImgBannerService, createBannerService, CreateProductService,
     getDataAllCode, getProductFigureService, createInforProductService,
-    getAllproductByTypeService, AllDetailByidService, getAllDataProjectService,
+    getAllproductByTypeService, AllDetailByidService, getAllDataProjectService, deleteUserService, getAllUserService, handleSaveUser
 }

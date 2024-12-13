@@ -1,7 +1,7 @@
 const { getAllDoctorSevice, saveInforDoctorService, getDetailDoctorService } = require('../services/DoctorService')
 const { createBannerService, getImgBannerService,
     CreateProductService, getDataAllCode, getProductFigureService, createInforProductService, getAllproductByTypeService,
-    AllDetailByidService, getAllDataProjectService, } = require('../services/AdminService')
+    AllDetailByidService, getAllDataProjectService, deleteUserService, getAllUserService, handleSaveUser } = require('../services/AdminService')
 
 
 const CreateBanner = async (req, res) => {
@@ -76,7 +76,7 @@ const getProductFigureLimit = async (req, res) => {
 }
 const createInforProduct = async (req, res) => {
     try {
-        console.log(req.body)
+
         let data = await createInforProductService(req.body)
         return res.status(200).json(data)
     } catch (e) {
@@ -110,6 +110,29 @@ const getAllDetailProductById = async (req, res) => {
         return res.status(200).json({
             errCode: 1,
             message: 'err From sever'
+        })
+    }
+}
+const handleDeleteUser = async (req, res) => {
+    try {
+        let data = await deleteUserService(req.body.id)
+        return res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: 1,
+            message: "err form server"
+        })
+    }
+}
+const getAllUser = async (req, res) => {
+    try {
+        let data = await getAllUserService()
+        return res.status(200).json(data)
+    } catch (e) {
+        return res.status(200).json({
+            errCode: 1,
+            message: " Err form server"
         })
     }
 }
@@ -166,6 +189,19 @@ const getAllProduct = async (req, res) => {
         )
     }
 }
+const handleUpdateUser = async (req, res) => {
+    try {
+        console.log(req.body)
+        let dataUp = await handleSaveUser(req.body)
+        return res.status(200).json(dataUp)
+    } catch (e) {
+        return res.status(200).json({
+            errCode: 1,
+            message: "Err from SV"
+        })
+    }
+
+}
 // const getProductlimitExclude = async (req, res) => {
 //     try {
 //         let data = await ProductlimitExclude(req.query.inputId)
@@ -181,5 +217,5 @@ const getAllProduct = async (req, res) => {
 module.exports = {
     getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor,
     CreateBanner, CreateProduct, getAllcode, getProductFigureLimit,
-    createInforProduct, getallProductByType, getAllDetailProductById, getAllProduct,
+    createInforProduct, getallProductByType, getAllDetailProductById, getAllProduct, handleDeleteUser, getAllUser, handleUpdateUser
 }
