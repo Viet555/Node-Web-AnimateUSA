@@ -1,7 +1,7 @@
 const { getAllDoctorSevice, saveInforDoctorService, getDetailDoctorService } = require('../services/DoctorService')
 const { createBannerService, getImgBannerService,
     CreateProductService, getDataAllCode, getProductFigureService, createInforProductService, getAllproductByTypeService,
-    AllDetailByidService, getAllDataProjectService, deleteUserService, getAllUserService, handleSaveUser } = require('../services/AdminService')
+    AllDetailByidService, getAllDataProjectService, deleteUserService, getAllUserService, handleSaveUser, getAllProductNewService } = require('../services/AdminService')
 
 
 const CreateBanner = async (req, res) => {
@@ -136,6 +136,22 @@ const getAllUser = async (req, res) => {
         })
     }
 }
+
+const getAllProductNew = async (req, res) => {
+    try {
+        inputId = req.query.inputId
+
+        if (!inputId) inputId = 'DESC'
+        let data = await getAllProductNewService(inputId)
+        return res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: 1,
+            message: "ERR SERVER !"
+        })
+    }
+}
 ////
 const getAllDoctor = async (req, res) => {
 
@@ -191,7 +207,7 @@ const getAllProduct = async (req, res) => {
 }
 const handleUpdateUser = async (req, res) => {
     try {
-        console.log(req.body)
+
         let dataUp = await handleSaveUser(req.body)
         return res.status(200).json(dataUp)
     } catch (e) {
@@ -217,5 +233,5 @@ const handleUpdateUser = async (req, res) => {
 module.exports = {
     getImgBanner, getAllDoctor, postInforDoctor, getDetailDoctor,
     CreateBanner, CreateProduct, getAllcode, getProductFigureLimit,
-    createInforProduct, getallProductByType, getAllDetailProductById, getAllProduct, handleDeleteUser, getAllUser, handleUpdateUser
+    createInforProduct, getallProductByType, getAllDetailProductById, getAllProduct, handleDeleteUser, getAllUser, handleUpdateUser, getAllProductNew
 }

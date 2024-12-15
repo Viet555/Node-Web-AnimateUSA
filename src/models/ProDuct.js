@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
 
             ProDucts.belongsTo(models.allcodes, { foreignKey: 'typeProducts', targetKey: 'keyMap', as: 'typeProDuctsData' })
+            ProDucts.belongsTo(models.Allcategories, { foreignKey: 'typeProducts', targetKey: 'keyMap', as: 'typeProDuctsCategories' })
             // ProDucts.belongsTo(models.allcode, { foreignKey: 'gender', targetKey: 'keyMap', as: 'genderData' })
             ProDucts.hasOne(models.markdowns, { foreignKey: 'productID', })
             // define association here

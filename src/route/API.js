@@ -2,7 +2,7 @@ const express = require('express')
 const { handleLogin, handlegetAllUser, handleCreateUser, handleEditUser, } = require('../controller/UserController')
 const { getImgBanner, CreateBanner, getAllDoctor, postInforDoctor,
     getDetailDoctor, CreateProduct, getAllcode, getProductFigureLimit, createInforProduct,
-    getallProductByType, getAllDetailProductById, getAllProduct, handleDeleteUser, getAllUser, handleUpdateUser } = require('../controller/Admincontroller')
+    getallProductByType, getAllDetailProductById, getAllProduct, handleDeleteUser, getAllUser, handleUpdateUser, getAllProductNew } = require('../controller/Admincontroller')
 let Router = express.Router();
 Router.post('/api/login', handleLogin)
 Router.post('/api/create-img-banner', CreateBanner)
@@ -19,5 +19,6 @@ Router.get('/api/all-Detail-product-byId', getAllDetailProductById)
 Router.get('/api/get-detail-All-product', getAllProduct);
 Router.put('/api/update-user-admin', handleUpdateUser);
 Router.get('/api/get-all-user', getAllUser);
+Router.get('/api/get-all-product-new', getAllProductNew);
 // Router.get('/api/get-Product-exclu', getProductlimitExclude);
 module.exports = Router;

@@ -145,13 +145,13 @@ const createInforProductService = (dataInput) => {
                 })
             else if (dataInput.action === 'EDIT') {
                 let DTmarkdown = await db.markdowns.findOne({
-                    where: { productId: dataInput.productID },
+                    where: { productId: dataInput.productId },
                     raw: false
                 })
                 if (DTmarkdown) {
-                    DTmarkdown.contentHTML = inputData.contentHTML;
-                    DTmarkdown.contentmarkdowns = inputData.contentmarkdowns;
-                    DTmarkdown.description = inputData.description;
+                    DTmarkdown.contentHTML = dataInput.contentHTML;
+                    DTmarkdown.contentmarkdowns = dataInput.contentmarkdowns;
+                    DTmarkdown.description = dataInput.description;
                     DTmarkdown.updateAt = new Date();
                     await DTmarkdown.save()
                 }
@@ -346,8 +346,24 @@ const handleSaveUser = (dataUser) => {
         }
     })
 }
+const getAllProductNewService = (inputId) => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            dataProduct = await db.ProDucts.findAll({
+                order: [['createdAt', inputId]],
+            })
+            resolve({
+                errCode: 0,
+                data: dataProduct
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     getImgBannerService, createBannerService, CreateProductService,
     getDataAllCode, getProductFigureService, createInforProductService,
-    getAllproductByTypeService, AllDetailByidService, getAllDataProjectService, deleteUserService, getAllUserService, handleSaveUser
+    getAllproductByTypeService, AllDetailByidService, getAllDataProjectService, deleteUserService, getAllUserService, handleSaveUser, getAllProductNewService
 }
