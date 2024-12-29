@@ -362,8 +362,52 @@ const getAllProductNewService = (inputId) => {
         }
     })
 }
+const createFaqService = (dataInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log(dataInput)
+            if (!dataInput) {
+                resolve({
+                    errCode: -1,
+                    message: ' missing input params'
+                })
+
+            }
+            else {
+                let dataFaq = await db.faqs.create({
+                    contentHTML: dataInput.contentHTML,
+                    contentmarkdowns: dataInput.contentmarkdowns,
+
+                })
+                resolve({
+                    data: dataFaq
+                })
+            }
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+const getFaqService = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let dataFaq = await db.faqs.findOne({
+                order: [['createdAt', 'DESC']],
+            })
+            resolve({
+                errCode: 0,
+                data: dataFaq
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+
+}
 module.exports = {
     getImgBannerService, createBannerService, CreateProductService,
     getDataAllCode, getProductFigureService, createInforProductService,
-    getAllproductByTypeService, AllDetailByidService, getAllDataProjectService, deleteUserService, getAllUserService, handleSaveUser, getAllProductNewService
+    getAllproductByTypeService, AllDetailByidService, getAllDataProjectService,
+    deleteUserService, getAllUserService, handleSaveUser, getAllProductNewService, createFaqService, getFaqService
 }
